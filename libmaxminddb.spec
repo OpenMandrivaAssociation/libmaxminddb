@@ -4,8 +4,8 @@
 
 Name:       libmaxminddb
 Summary:    C library for the MaxMind DB file format
-Version:    1.3.2
-Release:    %mkrel 3
+Version:	1.4.2
+Release:	1
 Group:      System/Libraries
 URL:        https://maxmind.github.io/libmaxminddb
 Source0:    https://github.com/maxmind/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
