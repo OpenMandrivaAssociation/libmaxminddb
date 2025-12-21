@@ -15,6 +15,11 @@ Source0:    https://github.com/maxmind/%{name}/releases/download/%{version}/%{na
 License:        ASL 2.0 and BSD
 
 # for tests
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires: perl(Test::More)
 BuildRequires: perl(File::Temp)
 BuildRequires: perl(IPC::Run3)
