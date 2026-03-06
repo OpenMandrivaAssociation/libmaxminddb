@@ -4,7 +4,7 @@
 
 Name:       libmaxminddb
 Summary:    C library for the MaxMind DB file format
-Version:	1.11.0
+Version:	1.13.3
 Release:	1
 Group:      System/Libraries
 URL:        https://maxmind.github.io/libmaxminddb
@@ -14,12 +14,10 @@ Source0:    https://github.com/maxmind/%{name}/releases/download/%{version}/%{na
 # src/maxminddb-compat-util.h is BSD
 License:        ASL 2.0 and BSD
 
-# for tests
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool-base
-BuildRequires:	slibtool
-BuildRequires:	make
+BuildSystem:	cmake
+BuildOption:	-DBUILD_SHARED_LIBS:BOOL=ON
+
+# For tests
 BuildRequires: perl(Test::More)
 BuildRequires: perl(File::Temp)
 BuildRequires: perl(IPC::Run3)
@@ -45,21 +43,11 @@ Provides:   %{name}-devel = %{version}-%{release}
 This package contains libraries and header files needed for developing
 applications that use %{name}.
 
-%prep
-%setup -q
-
-%build
-%configure --disable-static
-%make_build
-
+%if ! %{cross_compiling}
 %check
-# tests are linked dynamically, preload the library as we have removed RPATH
-LD_PRELOAD=%{buildroot}%{_libdir}/libmaxminddb.so make check
-
-%install
-%make_install
-
-find %{buildroot} -name '*.la' -delete
+cd _OMV_rpm_build
+LD_LIBRARY_PATH=$(pwd):$(pwd)/t ctest
+%endif
 
 %files -n %{libname}
 %doc LICENSE
@@ -72,5 +60,6 @@ find %{buildroot} -name '*.la' -delete
 %{_includedir}/maxminddb_config.h
 %{_libdir}/libmaxminddb.so
 %{_libdir}/pkgconfig/libmaxminddb.pc
+%{_libdir}/cmake/maxminddb
 %{_mandir}/man1/*
 %{_mandir}/man3/*
