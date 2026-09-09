@@ -17,6 +17,11 @@ License:        ASL 2.0 and BSD
 BuildSystem:	cmake
 BuildOption:	-DBUILD_SHARED_LIBS:BOOL=ON
 
+# For tests
+BuildRequires: perl(Test::More)
+BuildRequires: perl(File::Temp)
+BuildRequires: perl(IPC::Run3)
+
 # IP lookup + metadata dump on the shipped GeoIP2 test DBs (the same
 # shape as production GeoLite/GeoIP files). Skip the crafted DoS
 # databases — those overweight error paths.
@@ -54,11 +59,6 @@ do
 	done
 	"$lookup" -f "$datadir/$db" --ip 81.2.69.160 --benchmark 200 >/dev/null 2>&1 || true
 done
-
-# For tests
-BuildRequires: perl(Test::More)
-BuildRequires: perl(File::Temp)
-BuildRequires: perl(IPC::Run3)
 
 %description
 This package contains libmaxminddb library.
